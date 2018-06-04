@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.streamer" name="[COLOR skyblue]Streamer[/COLOR]" version="0.0.1" provider-name="@LuciferOnKodi">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+	<import addon="script.module.requests" version="2.9.1"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>X</summary>
+    <description>X</description>
+    <disclaimer></disclaimer>
+    <language>english</language>
+    <platform>all</platform>
+    <license>GNU General Public License v3.0</license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+    <news></news>
+    <assets>
+        <icon>icon.png</icon>
+        <fanart>fanart.jpg</fanart>
+        <screenshot></screenshot>
+    </assets>
+  </extension>
+</addon>

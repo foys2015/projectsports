@@ -1,0 +1,12 @@
+__all__ = ['sportstream365',
+           'mycujoo',
+           'aliez',
+           'assia',
+           'livestream',
+           'sportvisions',
+           'flashstreams',
+           'socolive',
+           'sporcanli',
+           'streamhd247',
+           'sport7',
+           '1me']
