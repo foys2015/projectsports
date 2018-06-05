@@ -6,11 +6,11 @@ import re
 sequence = re.compile('^(?:https://|http://|)(?:www\.|)(?:(?=\w+\W)\w+\W|)(\w+[^\W])\.')
 
 
-def searchHivesFor(sport=None, team=None):
+def searchHivesFor(sport=None, league=None, team=None):
     results = []
     for hive in hives.__all__:
         theHive = importlib.import_module('hives.' + hive)
-        results.extend(theHive.scrape(sport, team))
+        results.extend(theHive.scrape(sport, league, team))
     #Returns links of stream hosts
     return results
 

@@ -11,13 +11,27 @@ addonname = addon.getAddonInfo('name')
 path = 'special://home/addons/%s/' % addon_id
 icon = addon.getAddonInfo('icon')
 fanart = addon.getAddonInfo('fanart')
-
 dialog = xbmcgui.Dialog()
-searchTerm = dialog.input('Enter team', type=xbmcgui.INPUT_ALPHANUM)
-if searchTerm != '':
+
+#This is only for the testing phases
+#Obviously we will adjust this to programatically 
+#provide the values instead of showing a dialog when moving to production
+#Value must ALWAYS include 2 pipes (|)
+#Acceptable examples value formats are:
+#Baseball|None|None
+#Baseball|MLB|None
+#Baseball|MLB|Philadelphia Phillies
+#None|MLB|None
+#None|MLB|Philadelphia Phillies
+#None|None|Philadelphia Phillies
+searchVars = dialog.input('Enter sport|league|team (in that format)', type=xbmcgui.INPUT_ALPHANUM)
+if searchVars != '':
     import tb
-    links = tb.searchHivesFor(sport=None, team=searchTerm)
+    vals = searchVars.split('|')
+    #Using eval() in order to convert None strings to python's None
+    links = tb.searchHivesFor(sport=eval(vals[0]), league=eval(vals[1]), team=eval(vals[2]))
     if len(links) > 0:
+        #Commented out for now to make sure we're grabbing initial links from hives
         #results = tb.tryResolving(links)
         #for link in results:
         for link in links:
