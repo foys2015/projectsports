@@ -1,13 +1,7 @@
-from ..thebeast import RegExp
-import requests
-import re
+from .tools.common import Utils
 
-class Site(RegExp):
-    def __init__(self):
-        RegExp.__init__(self)
-        self.knownbases = ['juanaticos.com']
-        
+class Scraper(Utils):
     def resolve(self, link):
-        resolved = self.get_clappr(link)
-        print 'juanaticos.py: %s resolved to %s' % (link, resolved)
+        stream_page = self.sess.get(link).content
+        resolved = self.clappr.findall(stream_page)[0]
         return resolved

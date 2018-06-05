@@ -1,13 +1,7 @@
-from ..thebeast import RegExp
-import requests
-import re
+from .tools.common import Utils
 
-class Site(RegExp):
-    def __init__(self):
-        RegExp.__init__(self)
-        self.knownbases = ['webtv.ws']
-        
+class Scraper(Utils):
     def resolve(self, link):
-        resolved = self.get_source(link)
-        print 'webtv.py: %s resolved to %s' % (link, resolved)
+        resp = self.sess.get(link).content
+        resolved = self.source.findall(resp)[0]
         return resolved

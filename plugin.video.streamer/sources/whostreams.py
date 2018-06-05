@@ -1,16 +1,11 @@
-from ..thebeast import RegExp
-import requests
-import re
+from .tools.common import Utils
 
-class Site(RegExp):
-    def __init__(self):
-        RegExp.__init__(self)
-        self.knownbases = ['whostreams.net']
-        
+class Scraper(Utils):
     def resolve(self, link):
-        ref = link
-        unpacked = self.get_packer(link)
-        resolved = self.get_clappr(unpacked)
-        print 'whostreams.py: %s resolved to %s' % (link, resolved)
-        resolved += '|User-Agent=%s&Referer=%s' % (self.ua, link)
+        resp = self.sess.get(link).content
+        nextLink = self.packer.findall(resp)[0]
+        self.sess.headers.update({'Referer':link})
+        nextResp = self.sess.get(nextLink).content
+        resolved = self.clappr.findall(nextResp)[0]
+        resolved = '{url}|User-Agent={useragent}&Referer={referer}'.format(url=resolved, useragent=self.ua, referer=nextLink)
         return resolved

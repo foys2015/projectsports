@@ -1,36 +1,33 @@
 from HTMLParser import HTMLParser
-from ..thebeast import RegExp
+from .tools.common import Utils
+from .tools import jsunpack
 from urllib import unquote
-import requests
 import base64
 import re
 
-class Site(RegExp):
-    def __init__(self):
-        RegExp.__init__(self)
-        self.knownbases = ['cricfree.cc']
-        self.sequence = ['iframe','packer','clappr']
-        self.parser = HTMLParser()
-        
+class Scraper(Utils):
     def resolve(self, link):
+        parser = HTMLParser()
         listRe = re.compile('var\s+\w{3}\s+=\s+(\[.+?\]);', re.DOTALL)
         minusRe = re.compile('\s+\-\s+(\d{,10})\);')
         
-        page = requests.get(link).content
+        page = self.sess.get(link).content
         
         jsList = listRe.findall(page)[0]
         minusValue = int(minusRe.findall(page)[0])
         valuesList = eval(jsList)
         
-        iframePage = self.parser.unescape(unquote(''.join(map(chr,
-                                          [int(''.join([x for x in
-                                          base64.b64decode(valueInList)
-                                          if x.isdigit()])) - minusValue
-                                          for valueInList in valuesList]))))
+        iframePage = parser.unescape(unquote(''.join(map(chr,
+                                    [int(''.join([x for x in
+                                    base64.b64decode(valueInList)
+                                    if x.isdigit()])) - minusValue
+                                    for valueInList in valuesList]))))
         #We have to use iframe regexp here directly
         #because we had to decode the page contents first
         iframe_url = self.iframe.findall(iframePage)[0]
-        unpacked = self.get_packer(iframe_url, ref=link)
+        self.sess.headers.update({'Referer':link})
+        resp = self.sess.get(iframe_url).content
+        unpacked = jsunpack.unpack(resp)
         if unpacked == '':
             print 'cricfree.py: No packer code found'
             return ''

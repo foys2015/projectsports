@@ -34,7 +34,7 @@ def tryResolving(links):
     
 def resolve(url):
     src = importlib.import_module('sources.' + getBase(url))
-    return src.resolve(url)
+    return src.Scraper().resolve(url)
     
 #Helper function to check for existing source module
 def isResolvable(url):

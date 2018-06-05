@@ -23,6 +23,8 @@ class Utils:
         self.ua = ('Mozilla/5.0 (Windows NT 6.1; Win64; x64) '
                    'AppleWebKit/537.36 (KHTML, like Gecko) '
                    'Chrome/65.0.3325.181 Safari/537.36')
+        self.sess = requests.Session()
+        self.sess.headers.update({'User-Agent':self.ua})
     
     def js(self, link):
         if 'p3p' in link:
@@ -49,3 +51,6 @@ class Utils:
         elif 'jazztv' in link:
             print 'jazztv'
             src = 'http://www.jazztv.co/embedx.php?live={fid}&vw={vw}&vh={vh}'
+        elif 'playerfs' in link:
+            print 'playerfs'
+            src = 'http://www.playerfs.com/membedplayer/{channel}/{g}/{width}/{height}'
